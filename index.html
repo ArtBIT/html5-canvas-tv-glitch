@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link type='text/css' rel='stylesheet' media='Screen,Projection,TV' href='css/style.css' />
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.10.1.min.js'></script>
+    <script type='text/javascript' src="js/perlin.noise.js"></script>
+    <script type='text/javascript' src="js/canvas.tv.glitch.js"></script>
+  </head>
+  <body>
+    <a class="forkme" href="http://github.com/ArtBIT/html5-canvas-tv-glitch"></a>
+    <div id="super_wrapper">
+        <div id="content_wrapper">
+            <h2 class="c">HTML5 Canvas TV Glitch</h2>
+            <h3 class="c"><a href="http://youtu.be/EprQGmZ3Imw?t=5m6s">Touch the screen</a></h3>
+            <div class="tv_wrapper">
+                <div class="tv"></div>
+                <div class="screen">
+                <canvas id="stage" width="512" height="416">
+                    You need a HTML5 compatible browser to view this content.
+                </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        jQuery(function(){
+
+            function init(img) {
+                var stage = document.getElementById('stage');
+                var ctx = stage.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+
+                var glitch = new CanvasGlitch(stage);
+
+                var interval_id;
+                var now = function() {
+                    return (new Date()).getTime();
+                }
+                var ts = now();
+                var update = function() {
+                    var new_ts = now();
+                    var dt = new_ts - ts;
+                    ts = new_ts;
+
+                    glitch.update(dt);
+                    glitch.render();
+                }
+                var start_update = function() {
+                    clearInterval(interval_id);
+                    interval_id = setInterval(update, 20);
+                }
+                var stop_update = function() {
+                    clearInterval(interval_id);
+                    glitch.reset();
+                }
+                $('.tv').on('mousedown mouseup', function(e) {
+                    pressed = e.type == 'mousedown';
+                    if (e.type == 'mousedown') {
+                        start_update();
+                    }
+                    else {
+                        stop_update();
+                    }
+                });
+
+            }
+
+            // If you get Cross Origin error, try running Chrome with --allow-file-access-from-files flag
+            var img = new Image;
+            img.crossOrigin = "Anonymous";
+            img.onload = function() { init(this); };
+            img.src = "images/screen.png";
+            if (img.complete) {
+                init(img);
+            }
+        });
+    </script>
+  </body>
+</html>
