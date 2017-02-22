@@ -1,6 +1,6 @@
 HTML5 Canvas TV Glitch
 ======================
-![HTML5 Canvas TV Glitch](http://github.com/ArtBIT/html5-canvas-tv-glitch/raw/master/images/screenshot.png)
+![HTML5 Canvas TV Glitch](images/screenshot.png?raw=true)
 
 HTML5 Canvas TV Glitch - is a simple canvas effects that tries to mimic bad reception on analogue television sets.
 
